@@ -19,6 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    privileged: true
     depends_on:
       - prometheus
     ports:
