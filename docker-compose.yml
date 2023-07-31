@@ -1,28 +1,32 @@
-version: "3.3"
-   
+version: "3.9"
+
+volumes:
+    grafana-storage:
+
 services:
+    prometheus:
+        image: prom/prometheus:latest
+        ports:
+            - "9090:9090"
+        volumes:
+          - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        depends_on:
+            - "prometheus-pushgateway"
 
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
+    grafana:
+        image: grafana/grafana:latest
+        volumes:
+            - grafana-storage:/var/lib/grafana
+        environment:
+            - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=300ms
+        ports:
+            - "3000:3000"
+        depends_on:
+            - "prometheus"
+        container_name: grafana
 
-  grafana:
-    hostname: grafana
-    image: grafana/grafana
-    ports:
-      - 3000:3000
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    privileged: true
-    depends_on:
-      - prometheus
-    ports:
-      - "8080:8080"
-    command: ["python3", "app/main.py"]
-
+    prometheus-pushgateway:
+        image: prom/pushgateway
+        ports:
+            - "9091:9091"
+        container_name: prometheus-pushgateway
