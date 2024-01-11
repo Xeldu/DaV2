@@ -7,7 +7,7 @@ import serial
 
 registry = CollectorRegistry()
 
-debugas = False
+debugas = True
 
 PORT_SELECTED = '/dev/tty.usbmodem2103'
 BAUD_SELECTED = 115200
