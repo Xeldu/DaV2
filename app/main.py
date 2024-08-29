@@ -12,10 +12,10 @@ registry = CollectorRegistry()
 
 debugas = False
 
-PORT_SELECTED = 'COM6' #'/dev/tty.usbmodem2103'
+PORT_SELECTED = 'COM5' #'/dev/tty.usbmodem2103'
 BAUD_SELECTED = 115200
 import serial.tools.list_ports
-ports = serial.tools.list_ports.comports()
+ports = serial.tools.list_ports.comports()  
 
 # Create a metric to track time spent and requests made.
 gLap = Gauge('aLap', 'Volta', registry=registry)
@@ -79,10 +79,10 @@ def updatePrometheusData(dataS):
     gFrontLeftSuspension.set(float(dataS[19])*1)
     gFrontRightSuspension.set(float(dataS[20])*1)
     gBrakePressure.set(float(dataS[21])*1)
-    gRearLeftWheelSpeed.set(float(dataS[22])*1)
-    gRearRightWheelSpeed.set(float(dataS[23])*1)
-    gFrontLeftWheelSpeed.set(float(dataS[24])*1)
-    gFrontRightWheelSpeed.set(float(dataS[25])*1)
+    gRearLeftWheelSpeed.set(float(dataS[22])*0.26)
+    gRearRightWheelSpeed.set(float(dataS[23])*0.26)
+    gFrontLeftWheelSpeed.set(float(dataS[24])*0.26)
+    gFrontRightWheelSpeed.set(float(dataS[25])*0.26)
     gInverterFail.set(float(dataS[26])*1)
     gBmsFail.set(float(dataS[27])*1)
     gImdFail.set(float(dataS[28])*1)
